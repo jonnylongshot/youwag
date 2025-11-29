@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You Wag! - Apparel for Pets in Peril</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Nunito for headings (friendly/rounded), Inter for body -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            orange: '#FF8C42',
+                            teal: '#2C7A7B',
+                            dark: '#2D3748',
+                            light: '#F7FAFC'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Nunito', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            scroll-behavior: smooth;
+        }
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        /* Animation for cart notification */
+        @keyframes slideIn {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        .notification {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+        .notification.hiding {
+            animation: fadeOut 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <!-- Notification Toast Container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="#" class="flex-shrink-0 flex items-center gap-2">
+                        <i data-lucide="paw-print" class="h-8 w-8 text-brand-orange"></i>
+                        <span class="font-heading font-black text-2xl text-brand-dark tracking-tight">You Wag! <span class="text-brand-orange">🤘</span></span>
+                    </a>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#mission" class="text-gray-600 hover:text-brand-orange font-semibold transition">Our Mission</a>
+                    <a href="#how-it-works" class="text-gray-600 hover:text-brand-orange font-semibold transition">How It Works</a>
+                    <a href="#shop" class="text-gray-600 hover:text-brand-orange font-semibold transition">Apparel</a>
+                    <a href="#shop" class="bg-brand-orange text-white px-6 py-2 rounded-full font-bold hover:bg-orange-600 transition shadow-md transform hover:-translate-y-0.5">
+                        Shop Now
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="flex items-center md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-brand-dark focus:outline-none">
+                        <i data-lucide="menu" class="h-8 w-8"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#mission" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-brand-orange hover:bg-gray-50 rounded-md">Our Mission</a>
+                <a href="#how-it-works" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-brand-orange hover:bg-gray-50 rounded-md">How It Works</a>
+                <a href="#shop" class="block px-3 py-2 text-base font-medium text-brand-orange font-bold hover:bg-gray-50 rounded-md">Shop Apparel</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="relative bg-brand-dark overflow-hidden">
+        <!-- Background Image Overlay -->
+        <div class="absolute inset-0 z-0 opacity-40">
+            <img src="https://images.unsplash.com/photo-1450778869180-41d0601e046e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Happy dog running" class="w-full h-full object-cover">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/80 to-transparent z-0"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-24 md:py-32">
+            <div class="md:w-2/3 lg:w-1/2">
+                <h1 class="text-4xl md:text-6xl font-heading font-black text-white leading-tight mb-6">
+                    Apparel for <br>
+                    <span class="text-brand-orange">Pets in Peril</span>
+                </h1>
+                <p class="text-xl text-gray-200 mb-8 font-light">
+                    Help save shelter pets with every purchase—<span class="font-bold text-white bg-brand-orange/20 px-2 py-1 rounded">30% of profits</span> support animal rescue.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#shop" class="inline-flex justify-center items-center px-8 py-4 border border-transparent text-lg font-bold rounded-full text-brand-dark bg-white hover:bg-gray-100 transition shadow-lg">
+                        <i data-lucide="shopping-bag" class="w-5 h-5 mr-2"></i> Shop Collection
+                    </a>
+                    <a href="#mission" class="inline-flex justify-center items-center px-8 py-4 border-2 border-white text-lg font-bold rounded-full text-white hover:bg-white/10 transition">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mission Section -->
+    <section id="mission" class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <i data-lucide="heart-handshake" class="w-16 h-16 text-brand-teal mx-auto mb-6"></i>
+            <h2 class="text-3xl md:text-4xl font-heading font-bold text-brand-dark mb-8">The Feel Good Fundraiser</h2>
+            <p class="text-xl text-gray-600 leading-relaxed mb-8">
+                "The purpose of life is to contribute in some way to making things better."
+            </p>
+            <p class="text-lg text-gray-600 leading-relaxed">
+                Welcome to <strong>You Wag!</strong>, the fundraiser that will have shelter pets wagging their tails in gratitude! Our mission is simple: <span class="text-brand-orange font-bold">Helping shelter pets find loving homes, and avoid euthanasia.</span>
+            </p>
+        </div>
+    </section>
+
+    <!-- How It Works & Partners -->
+    <section id="how-it-works" class="py-20 bg-brand-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-brand-orange font-bold tracking-wider uppercase text-sm">Our Impact</span>
+                <h2 class="text-3xl md:text-4xl font-heading font-bold text-brand-dark mt-2">How It Works</h2>
+                <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Every purchase of our purpose-driven apparel benefits your local shelter.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+                <!-- Feature 1 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition text-center group">
+                    <div class="w-14 h-14 bg-brand-orange/10 text-brand-orange rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-brand-orange group-hover:text-white transition">
+                        <i data-lucide="percent" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-3">30% Donated</h3>
+                    <p class="text-gray-600 text-sm">We donate a significant portion of profits directly to animal rescue efforts.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition text-center group">
+                    <div class="w-14 h-14 bg-brand-teal/10 text-brand-teal rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-brand-teal group-hover:text-white transition">
+                        <i data-lucide="megaphone" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-3">Awareness</h3>
+                    <p class="text-gray-600 text-sm">Promotes our awareness outreach campaign to get pets seen and adopted.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition text-center group">
+                    <div class="w-14 h-14 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-purple-600 group-hover:text-white transition">
+                        <i data-lucide="stethoscope" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-3">Medical Support</h3>
+                    <p class="text-gray-600 text-sm">Funds support medical care, outreach programs, and adoption services.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition text-center group">
+                    <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-blue-600 group-hover:text-white transition">
+                        <i data-lucide="infinity" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-3">Revenue Stream</h3>
+                    <p class="text-gray-600 text-sm">Creates a pathway to a perpetual stream of revenue for shelters.</p>
+                </div>
+            </div>
+
+            <!-- Partner Highlight -->
+            <div class="bg-brand-teal rounded-3xl p-8 md:p-12 text-white flex flex-col md:flex-row items-center gap-8">
+                <div class="md:w-2/3">
+                    <h3 class="text-2xl font-bold font-heading mb-4">From the Rockies to the Caribbean</h3>
+                    <p class="text-teal-100 mb-6 text-lg">
+                        We’re teaming up with shelters throughout <strong>Colorado</strong>, with plans to expand nationally. Not shy of long distance relationships, we’ve even teamed up with the <strong>St. Croix Animal Welfare Center</strong> in the Virgin Islands!
+                    </p>
+                    <div class="flex gap-4">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-brand-orange"></i> Colorado
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-brand-orange"></i> US Virgin Islands
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/3 flex justify-center">
+                   <i data-lucide="globe-2" class="w-32 h-32 opacity-80"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shop Section -->
+    <section id="shop" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-heading font-bold text-brand-dark">Shop for a Cause</h2>
+                <p class="mt-4 text-gray-600">Our adorable apparel makes thoughtful gifts for the animal lovers in your life.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8" id="product-grid">
+                <!-- Products inserted via JS -->
+            </div>
+            
+            <div class="mt-12 text-center">
+                 <button class="px-8 py-3 border-2 border-brand-dark text-brand-dark font-bold rounded-full hover:bg-brand-dark hover:text-white transition">
+                    View All Products
+                 </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- How You Can Help -->
+    <section class="py-20 bg-orange-50 relative overflow-hidden">
+        <div class="absolute -right-20 -top-20 opacity-10 rotate-12">
+            <i data-lucide="bone" class="w-96 h-96 text-brand-orange"></i>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+                <div class="grid md:grid-cols-2">
+                    <div class="p-12 flex flex-col justify-center">
+                        <h2 class="text-3xl font-heading font-bold text-brand-dark mb-6">How You Can Help</h2>
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-start">
+                                <i data-lucide="check-circle" class="w-6 h-6 text-brand-orange mr-3 mt-1 flex-shrink-0"></i>
+                                <span class="text-lg text-gray-700"><strong>Order apparel:</strong> Wear your heart on your sleeve (literally).</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="share-2" class="w-6 h-6 text-brand-orange mr-3 mt-1 flex-shrink-0"></i>
+                                <span class="text-lg text-gray-700"><strong>Share our mission:</strong> Help us go viral on social media.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="users" class="w-6 h-6 text-brand-orange mr-3 mt-1 flex-shrink-0"></i>
+                                <span class="text-lg text-gray-700"><strong>Get involved:</strong> Volunteer at your local shelter.</span>
+                            </li>
+                        </ul>
+                        <div class="bg-orange-100 p-6 rounded-xl border-l-4 border-brand-orange">
+                            <p class="font-bold text-brand-orange text-lg italic">
+                                "Let’s raise the woof on what’s possible!"
+                            </p>
+                        </div>
+                    </div>
+                    <div class="h-64 md:h-auto bg-gray-200 relative">
+                        <img src="https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dog looking cute" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Transparency & Footer -->
+    <footer class="bg-brand-dark text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                         <span class="font-heading font-black text-2xl text-white">You Wag! <span class="text-brand-orange">🤘</span></span>
+                    </div>
+                    <p class="text-gray-400 mb-6">
+                        Apparel for Pets in Peril. Contributing to making life better for shelter animals everywhere.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-orange transition">
+                            <i data-lucide="facebook" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-orange transition">
+                            <i data-lucide="instagram" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-orange transition">
+                            <i data-lucide="twitter" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4 text-brand-orange">Transparency Matters</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Trust is everything. We publicly share financial contributions and success stories on our social media sites! Follow us to see exactly how your purchase is making a difference.
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-bold mb-4 text-brand-orange">Contact</h3>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="mail" class="w-4 h-4"></i> hello@youwag.com
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="map-pin" class="w-4 h-4"></i> Boulder, Colorado
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-8 text-center text-sm text-gray-500">
+                &copy; 2023 You Wag! All rights reserved. | Helping pets one shirt at a time.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Mock Product Data
+        const products = [
+            {
+                id: 1,
+                name: "The 'Rescue Mom' Tee",
+                price: 28.00,
+                color: "bg-orange-100",
+                imgIcon: "shirt",
+                description: "Soft cotton blend, perfect for walks."
+            },
+            {
+                id: 2,
+                name: "Pets in Peril Hoodie",
+                price: 45.00,
+                color: "bg-teal-100",
+                imgIcon: "shirt",
+                description: "Keep warm while warming hearts."
+            },
+            {
+                id: 3,
+                name: "You Wag! Trucker Hat",
+                price: 22.00,
+                color: "bg-gray-200",
+                imgIcon: "hard-hat", // Using closest icon for hat
+                description: "Adjustable snapback with embroidered logo."
+            }
+        ];
+
+        // Render Products
+        const productGrid = document.getElementById('product-grid');
+        
+        products.forEach(product => {
+            const card = document.createElement('div');
+            card.className = "group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition duration-300 border border-gray-100 flex flex-col";
+            
+            card.innerHTML = `
+                <div class="h-64 ${product.color} relative flex items-center justify-center overflow-hidden">
+                    <i data-lucide="${product.imgIcon}" class="w-24 h-24 text-gray-800 opacity-50 group-hover:scale-110 transition duration-500"></i>
+                    <div class="absolute bottom-4 right-4 bg-white px-3 py-1 rounded-full text-xs font-bold shadow-sm">
+                        Donate 30%
+                    </div>
+                </div>
+                <div class="p-6 flex-grow flex flex-col">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-bold text-gray-800">${product.name}</h3>
+                        <span class="text-brand-teal font-bold">$${product.price.toFixed(2)}</span>
+                    </div>
+                    <p class="text-gray-500 text-sm mb-6 flex-grow">${product.description}</p>
+                    <button onclick="addToCart('${product.name}')" class="w-full bg-brand-dark text-white py-3 rounded-lg font-bold hover:bg-brand-orange transition flex items-center justify-center gap-2">
+                        <i data-lucide="shopping-cart" class="w-4 h-4"></i> Add to Cart
+                    </button>
+                </div>
+            `;
+            productGrid.appendChild(card);
+        });
+        
+        // Re-initialize icons for new elements
+        lucide.createIcons();
+
+        // Notification Logic
+        function addToCart(itemName) {
+            const container = document.getElementById('toast-container');
+            
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = 'notification bg-brand-dark text-white px-6 py-4 rounded-lg shadow-2xl flex items-center gap-3 min-w-[300px] border-l-4 border-brand-orange';
+            toast.innerHTML = `
+                <div class="bg-brand-orange rounded-full p-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+                <div>
+                    <p class="font-bold text-sm">Added to Cart!</p>
+                    <p class="text-xs text-gray-300">Helping save pets with ${itemName}</p>
+                </div>
+            `;
+            
+            container.appendChild(toast);
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                toast.classList.add('hiding');
+                toast.addEventListener('animationend', () => {
+                    toast.remove();
+                });
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
